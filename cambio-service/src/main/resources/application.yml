@@ -3,3 +3,17 @@ server:
 spring:
   application:
     name: cambio-service
+  datasource:
+    driverClassName: org.postgresql.Driver
+    platform: postgres
+    url: jdbc:postgresql://localhost:5432/cambio-service
+    username: postgres
+    password: postgres
+  jpa:
+    show-sql: true
+  flyway:
+    datasources:
+      default:
+        enabled: true
+        clean-schema: true # faz o create-drop
+
