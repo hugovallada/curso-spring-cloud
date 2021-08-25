@@ -1,5 +1,6 @@
 package com.github.hugovallada.bookservice.controller;
 
+import com.github.hugovallada.bookservice.api.proxy.CambioProxy;
 import com.github.hugovallada.bookservice.model.Book;
 import com.github.hugovallada.bookservice.repository.BookRepository;
 import lombok.SneakyThrows;
@@ -25,6 +26,9 @@ public class BookController {
     @Autowired
     private BookRepository repository;
 
+    @Autowired
+    private CambioProxy cambioProxy;
+
     @SneakyThrows
     @GetMapping("{id}/{currency}")
     public Book getBook(
@@ -37,8 +41,11 @@ public class BookController {
 
         if(book == null) throw new Exception("Book can't be null");
 
+        var cambio = cambioProxy.getCambio(book.getPrice(), "USD", currency);
+
         var port = environment.getProperty("local.server.port");
         book.setEnvironment(port);
+        book.setPrice(cambio.getConvertedValue());
 
         return book;
     }
