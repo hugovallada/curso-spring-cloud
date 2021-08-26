@@ -7,3 +7,9 @@ eureka:
 spring:
   application:
     name: api-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true # permite q ao invés de usar o localhost do próprio serviço para acessar, usa o próprio api gateway e passa o nome do serviço
+          lower-case-service-id: true # usa o nome do serviço em minusculo ao invés de maiusculo
