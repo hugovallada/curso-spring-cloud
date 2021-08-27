@@ -13,6 +13,15 @@ resilience4j:
         max-attempts: 7
         wait-duration: 1s # espera 1 segundo antes de tentar a nova requisição
         enable-exponential-backoff: true # a duração da espera vai aumentando
+  ratelimiter:
+    instances:
+      default:
+        limit-for-period: 2 # qnts requisições pode fazer em um período
+        limit-refresh-period: 10s  # duração do período
+  bulkhead:
+    instances:
+      default:
+        max-concurrent-calls: 10 # determina qnts execuções concorrentes pode ter
 spring:
   application:
     name: book-service
