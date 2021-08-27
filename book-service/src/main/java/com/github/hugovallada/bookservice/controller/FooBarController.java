@@ -14,11 +14,16 @@ public class FooBarController {
 
 
     @GetMapping("/foo-bar")
-    @Retry(name = "foo-bar")
+    @Retry(name = "foo-bar", fallbackMethod = "fallbackMethod")
     public String fooBar(){
         log.info("Request to foo-bar is received");
         var response = new RestTemplate().getForEntity("http://localhost:8080/foo-bar", String.class);
         return response.getBody();
+    }
+
+    public String fallbackMethod(Exception ex){ // deve ter um exception
+        log.info("Fallback called");
+        return "Fallback Method Foo-Bar";
     }
 
 

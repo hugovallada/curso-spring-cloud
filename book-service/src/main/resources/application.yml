@@ -11,6 +11,8 @@ resilience4j:
         max-attempts: 5
       foo-bar:
         max-attempts: 7
+        wait-duration: 1s # espera 1 segundo antes de tentar a nova requisição
+        enable-exponential-backoff: true # a duração da espera vai aumentando
 spring:
   application:
     name: book-service
