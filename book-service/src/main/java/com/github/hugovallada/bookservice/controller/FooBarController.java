@@ -1,5 +1,6 @@
 package com.github.hugovallada.bookservice.controller;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,7 +15,8 @@ public class FooBarController {
 
 
     @GetMapping("/foo-bar")
-    @Retry(name = "foo-bar", fallbackMethod = "fallbackMethod")
+    //@Retry(name = "foo-bar", fallbackMethod = "fallbackMethod")
+    @CircuitBreaker(name = "default", fallbackMethod = "fallbackMethod")
     public String fooBar(){
         log.info("Request to foo-bar is received");
         var response = new RestTemplate().getForEntity("http://localhost:8080/foo-bar", String.class);
