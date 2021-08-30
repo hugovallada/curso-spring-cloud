@@ -42,5 +42,8 @@ spring:
       default:
         enabled: true
         clean-schema: true # faz o create-drop
-
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: book-service/v3/api-docs
 

@@ -20,4 +20,8 @@ spring:
       default:
         enabled: true
         clean-schema: true # faz o create-drop
+springdoc:
+  show-actuator: true
+  api-docs:
+    path: cambio-service/v3/api-docs
 
