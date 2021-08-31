@@ -42,6 +42,9 @@ spring:
       default:
         enabled: true
         clean-schema: true # faz o create-drop
+  sleuth:
+    sampler:
+      probability: 1.0
 springdoc:
   show-actuator: true
   api-docs:
