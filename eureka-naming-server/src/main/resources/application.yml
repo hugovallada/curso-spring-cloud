@@ -5,5 +5,5 @@ spring:
     name: naming-server
 eureka:
   client:
-    register-with-eureka: false # não se auto registra .. Em produção tirar ela
+    register-with-eureka: false # nï¿½o se auto registra .. Em produï¿½ï¿½o tirar ela
     fetch-registry: false

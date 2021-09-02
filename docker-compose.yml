@@ -1,0 +1,32 @@
+version: '3.4'
+
+services: 
+  naming-server:
+    image : hugovallada/eureka-naming-server:0.0.1-SNAPSHOT
+    ports:
+      - 8761:8761
+    networks: 
+      - hugo-network
+
+  api-gateway:
+    image: hugovallada/api-gateway:0.0.1-SNAPSHOT
+    ports:
+     - 8765:8765
+    depends_on: 
+      - naming-server
+    environment: 
+      SPRING.ZIPKIN.BASEURL: http://zipkin:9411/
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+    networks: 
+      - hugo-network
+
+  zipkin:
+    image: openzipkin/zipkin:2.23.2
+    ports:
+      - 9411:9411
+    networks: 
+      - hugo-network
+
+networks:
+  hugo-network:
+    driver: bridge

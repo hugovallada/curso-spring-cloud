@@ -80,7 +80,14 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.5.4</version>
 				<configuration>
+					<image>
+						<name>hugovallada/${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>
+						IF_NOT_PRESENT
+					</pullPolicy>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
@@ -91,5 +98,4 @@
 			</plugin>
 		</plugins>
 	</build>
-
 </project>

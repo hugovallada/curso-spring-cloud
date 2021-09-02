@@ -16,6 +16,7 @@
 	<properties>
 		<java.version>16</java.version>
 		<spring-cloud.version>2020.0.3</spring-cloud.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -54,6 +55,15 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>2.5.4</version>
+				<configuration>
+					<image>
+						<name>hugovallada/${project.artifactId}:${project.version}</name>
+					</image>
+					<pullPolicy>
+						IF_NOT_PRESENT
+					</pullPolicy>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
