@@ -20,6 +20,50 @@ services:
     networks: 
       - hugo-network
 
+  cambio-service:
+    image: hugovallada/cambio-service
+    restart: always
+    build:
+      context: .
+      dockerfile: cambio-service/Dockerfile
+    environment: 
+      TZ: America/Sao_Paulo
+      SPRING.ZIPKIN.BASEURL: http://zipkin:9411/
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.APPLICATION.NAME: cambio-service
+      SPRING.DATASOURCE.URL: jdbc:postgresql://cambio-db:5433/cambio_service?useSSL=false&enabledTLSProtocols=TLSv1.2
+      SPRING.DATASOURCE.USERNAME: postgres
+      SPRING.DATASOURCE.PASSWORD: postgres 
+    ports:
+      - 8000:8000
+    depends_on: 
+      - naming-server
+      - cambio-db
+    networks: 
+      - hugo-network
+
+  book-service:
+    image: hugovallada/book-service
+    restart: always
+    build:
+      context: .
+      dockerfile: book-service/Dockerfile
+    environment: 
+      TZ: America/Sao_Paulo
+      SPRING.ZIPKIN.BASEURL: http://zipkin:9411/
+      EUREKA.CLIENT.SERVICEURL.DEFAULTZONE: http://naming-server:8761/eureka
+      SPRING.APPLICATION.NAME: book-service
+      SPRING.DATASOURCE.URL: jdbc:postgresql://book-db:5432/book_service?useSSL=false&enabledTLSProtocols=TLSv1.2
+      SPRING.DATASOURCE.USERNAME: postgres
+      SPRING.DATASOURCE.PASSWORD: postgres 
+    ports:
+      - 8100:8100
+    depends_on: 
+      - naming-server
+      - book-db
+    networks: 
+      - hugo-network
+
   zipkin:
     image: openzipkin/zipkin:2.23.2
     ports:
@@ -28,40 +72,36 @@ services:
       - hugo-network
 
   cambio-db:
-    image: mysql:5.7.22
-    command: --default-authentication-plugin=mysql_native_password
+    image: postgres:10.4
     restart: always
     environment: 
+      POSTGRES_DB: book_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: admin123
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: admin123
-      MYSQL_DATABASE: cambio_service
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_TCP_PORT: 3306
+      POSTGRES_TCP_PORT: 5433
+      POSTGRES_HOST: postgres
     ports: 
-      - 3306:3306
-    expose:
-      - 3306
+      - 5433:5433
+    expose: 
+      - 5433
     networks: 
       - hugo-network
 
   book-db:
-    image: mysql:5.7.22
-    command: --default-authentication-plugin=mysql_native_password
+    image: postgres:10.4
     restart: always
     environment: 
+      POSTGRES_DB: book_service
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
       TZ: America/Sao_Paulo
-      MYSQL_ROOT_PASSWORD: admin123
-      MYSQL_USER: docker
-      MYSQL_PASSWORD: admin123
-      MYSQL_DATABASE: book_service
-      MYSQL_ROOT_HOST: '%'
-      MYSQL_TCP_PORT: 3308
+      POSTGRES_TCP_PORT: 5432
+      POSTGRES_HOST: postgres
     ports: 
-      - 3308:3308
-    expose:
-      - 3308
+      - 5432:5432
+    expose: 
+      - 5432
     networks: 
       - hugo-network
     
